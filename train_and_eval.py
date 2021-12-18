@@ -1,5 +1,4 @@
 import os.path
-
 import torch.optim as optim
 import Config
 from process_data import *
@@ -32,7 +31,7 @@ def get_logger(filename, verbosity=1, name=None):
 
 def get_data():
     print("Load Word2id...")
-    word2id, tag2id = build_word2id(Config.train_path, Config.validation_path, Config.test_path)
+    word2id, tag2id = build_word2id(Config.train_path, Config.validation_path)
 
     print("Load Data...")
     out = load_data(Config.train_path, Config.validation_path, Config.test_path, word2id, tag2id)
@@ -120,7 +119,7 @@ def train_and_eval(train_data, validation_data, criterion):
             logger.info('best model is changed, best acc is {:.6f}'.format(best_acc))
 
     logger.info('finish training!')
-    torch.save(best_model, 'model/TextCNN.pth')
+    torch.save(best_model.state_dict(), 'model/BiLSTM.pth')
     np.save(os.path.join(save_path, 'train_acc.npy'), np.array(train_dict['train_acc']))
     np.save(os.path.join(save_path, 'val_acc.npy'), np.array(train_dict['validation_acc']))
     np.save(os.path.join(save_path, 'val_acc.npy'), np.array(train_dict['validation_loss']))
@@ -129,8 +128,8 @@ def train_and_eval(train_data, validation_data, criterion):
 if __name__ == '__main__':
     vocab_size, tag_size, train_data, validation_data, test_data = get_data()
     train_dict = {'train_acc': [], 'train_loss': [], 'validation_acc': [], 'validation_loss': []}
-    logger = get_logger('log/cn_TextCNN.log')
-    save_path = 'save/CNN'
+    logger = get_logger('log/cn_BiLSTM.log')
+    save_path = 'save/BiLSTM'
     model = TextCNN(vocab_size, tag_size).cuda()
     criterion = nn.CrossEntropyLoss()
     optimzier = optim.Adam(model.parameters(), lr=Config.lr)

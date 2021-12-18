@@ -5,11 +5,8 @@ from train_and_eval import get_data
 from torch.autograd import Variable
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from SAmodel import TextCNN
 import numpy as np
-
-vocab_size, tag_size, train_data, validation_data, test_data = get_data()
-model = torch.load('model/eng_LSTM.pth', map_location='cuda')
-criterion = nn.CrossEntropyLoss()
 
 
 def evaluate(model, test_data, criterion):
@@ -22,8 +19,8 @@ def evaluate(model, test_data, criterion):
     for i, data in enumerate(test_data):
         x, y = data
         with torch.no_grad():
-            x = Variable(x).cuda()
-            y = Variable(y).cuda()
+            x = Variable(x)
+            y = Variable(y)
         out = model(x)
         loss = criterion(out, y)
         test_loss += loss.data.item()
@@ -41,6 +38,10 @@ def evaluate(model, test_data, criterion):
     return sk_acc, test_acc, test_loss, confusion_m
 
 
-sk_loss, eval_acc, eval_loss, metrix = evaluate(model, test_data, criterion=criterion)
-print(metrix)
-
+vocab_size, tag_size, train_data, validation_data, test_data = get_data()
+state_dict = torch.load('model/TextCNN.pth', map_location='cpu')
+model = TextCNN(vocab_size, tag_size)
+model.load_state_dict(state_dict=state_dict)
+criterion = nn.CrossEntropyLoss()
+sk_loss, eval_acc, eval_loss, matrix = evaluate(model, test_data, criterion=criterion)
+print(matrix)

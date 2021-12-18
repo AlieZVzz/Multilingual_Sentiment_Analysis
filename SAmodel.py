@@ -109,7 +109,7 @@ class TextCNN(nn.Module):
         x = self.embedding(x)  # 经过embedding,x的维度为(batch_size, max_len, embedding_dim)
 
         # 经过view函数x的维度变为(batch_size, input_chanel=1, w=max_len, h=embedding_dim)
-        x = x.view(x.size(0), 1, x.size(1), Config.embedding_dim)
+        x = x.unsqueeze(1)
 
         # 经过卷积运算,x中每个运算结果维度为(batch_size, out_chanel, w, h=1)
         x = [F.relu(conv(x)) for conv in self.convs]

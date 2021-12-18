@@ -96,9 +96,9 @@ def pad_sequences(sequences, maxlen=None, dtype='int32',
     return x
 
 
-def build_word2id(train_path, validation_path, test_path):
+def build_word2id(train_path, validation_path):
     word2id = {'PAD': 0}
-    paths = [train_path, validation_path, test_path]
+    paths = [train_path, validation_path]
     for path in paths:
         with open(path, 'r', encoding='utf-8') as f:
             for line in f.readlines():
