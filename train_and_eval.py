@@ -69,7 +69,7 @@ def evaluate(model, validation_dataX):
         num_acc = (pred == y).sum()
         eval_acc += num_acc.data.item()
 
-    logger.info('test loss is:{:.6f},test acc is:{:.6f}'
+    logger.info('validation loss is:{:.6f},validation acc is:{:.6f}'
                 .format(eval_loss / (len(validation_data) * Config.batch_size),
                         eval_acc / (len(validation_data) * Config.batch_size)))
     return eval_acc, eval_loss
@@ -78,9 +78,8 @@ def evaluate(model, validation_dataX):
 def train_and_eval(train_data, validation_data, criterion):
     best_acc = 0
     best_model = None
+    logger.info('start training!')
     for epoch in range(Config.epoch):
-        logger.info('start training!')
-        print("Epoch{}:".format(epoch + 1))
         train_loss, train_acc = 0, 0
         true_label = []
         pred_label = []
