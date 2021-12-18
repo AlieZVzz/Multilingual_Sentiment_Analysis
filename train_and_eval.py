@@ -54,7 +54,7 @@ def get_data():
     return vocab_size, tag_size, train_data, validation_data, test_data
 
 
-def evaluate(model, validation_dataX):
+def evaluate(model, validation_data):
     model.eval()
     eval_loss, eval_acc = 0, 0
     for i, data in enumerate(validation_data):
