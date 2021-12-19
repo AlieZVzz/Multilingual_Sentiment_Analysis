@@ -2,7 +2,7 @@ class Config(object):
     train_path = 'Dataset/zh_train_data.txt'
     validation_path = 'Dataset/zh_validation_data.txt'
     test_path = 'Dataset/test/baidu_eng.txt'
-    epoch = 5
+    epoch = 10
 
     embedding_dim = 100
     hidden_dim = 100

@@ -130,7 +130,7 @@ if __name__ == '__main__':
     train_dict = {'train_acc': [], 'train_loss': [], 'validation_acc': [], 'validation_loss': []}
     logger = get_logger('log/cn_BiLSTM.log')
     save_path = 'save/BiLSTM'
-    model = TextCNN(vocab_size, tag_size).cuda()
+    model = LSTM_Attention(vocab_size, tag_size).cuda()
     criterion = nn.CrossEntropyLoss()
     optimzier = optim.Adam(model.parameters(), lr=Config.lr)
     train_and_eval(train_data, validation_data, criterion)
